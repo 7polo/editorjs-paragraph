@@ -3,7 +3,7 @@
  */
 import './index.css';
 
-import { IconText } from '@codexteam/icons'
+import {IconText} from '@codexteam/icons'
 import makeFragment from './utils/makeFragment';
 
 /**
@@ -46,7 +46,7 @@ export default class Paragraph {
    * @param {object} params.api - editor.js api
    * @param {boolean} readOnly - read only mode flag
    */
-  constructor({ data, config, api, readOnly }) {
+  constructor({data, config, api, readOnly}) {
     this.api = api;
     this.readOnly = readOnly;
 
@@ -68,6 +68,7 @@ export default class Paragraph {
     this._data = data ?? {};
     this._element = null;
     this._preserveBlank = config.preserveBlank !== undefined ? config.preserveBlank : false;
+    this.commands = config.commands || [];
   }
 
   /**
@@ -78,13 +79,34 @@ export default class Paragraph {
    */
   onKeyUp(e) {
     if (e.code !== 'Backspace' && e.code !== 'Delete') {
+      try {
+        this.dispatcherCommand(this._element.innerHTML)
+      } catch (e) {
+        console.warn("auto convert failed", e)
+      }
       return;
     }
 
-    const { textContent } = this._element;
+    const {textContent} = this._element;
 
     if (textContent === '') {
       this._element.innerHTML = '';
+    }
+  }
+
+  dispatcherCommand(text) {
+    text = text.replaceAll(/&nbsp;/g, " ");
+    for (let i = 0; i < this.commands.length; i++) {
+      const command = this.commands[i];
+      const matched = command.regex.test(text);
+      if (matched) {
+        const data = command?.convert(command.regex, text) || {};
+        // replace
+        const index = this.api.blocks.getCurrentBlockIndex()
+        this.api.blocks.insert(command.tool, data, {}, index, true, true);
+        this.api.caret.setToBlock(index);
+        break;
+      }
     }
   }
 
@@ -232,7 +254,7 @@ export default class Paragraph {
    */
   static get pasteConfig() {
     return {
-      tags: [ 'P' ],
+      tags: ['P'],
     };
   }
 
