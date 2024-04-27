@@ -9,13 +9,13 @@ Basic text Tool for the [Editor.js](https://ifmo.su/editor).
 Get the package
 
 ```shell
-yarn add @7pol/editorjs-paragraph
+yarn add @7polo/editorjs-paragraph
 ```
 
 Include module at your application
 
 ```javascript
-import Paragraph from '@7pol/editorjs-paragraph';
+import Paragraph from '@7polo/editorjs-paragraph';
 ```
 
 ## Usage
