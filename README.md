@@ -15,7 +15,10 @@ yarn add @7polo/editorjs-paragraph
 Include module at your application
 
 ```javascript
-import Paragraph from '@7polo/editorjs-paragraph';
+import Paragraph, {
+  HEAD_RULE,
+  DELIMITER_RULE,
+} from '@7polo/editorjs-paragraph';
 ```
 
 ## Usage
@@ -34,7 +37,10 @@ var editor = new EditorJS({
     ...
     paragraph: {
       class: Paragraph,
-      inlineToolbar: true,
+        inlineToolbar: true,
+        config: {
+        commands: [HEAD_RULE, DELIMITER_RULE],
+      },
     },
   }
 

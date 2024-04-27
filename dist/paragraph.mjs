@@ -28,8 +28,8 @@ class a {
   static get DEFAULT_PLACEHOLDER() {
     return "";
   }
-  constructor({ data: e, config: t, api: n, readOnly: i }) {
-    this.api = n, this.readOnly = i, this._CSS = {
+  constructor({ data: e, config: t, api: n, readOnly: s }) {
+    this.api = n, this.readOnly = s, this._CSS = {
       block: this.api.styles.block,
       wrapper: "ce-paragraph"
     }, this.readOnly || (this.onKeyUp = this.onKeyUp.bind(this)), this._placeholder = t.placeholder ? t.placeholder : a.DEFAULT_PLACEHOLDER, this._data = e != null ? e : {}, this._element = null, this._preserveBlank = t.preserveBlank !== void 0 ? t.preserveBlank : !1, this.commands = t.commands || [];
@@ -51,8 +51,8 @@ class a {
     for (let t = 0; t < this.commands.length; t++) {
       const n = this.commands[t];
       if (n.regex.test(e)) {
-        const o = (n == null ? void 0 : n.convert(n.regex, e)) || {}, s = this.api.blocks.getCurrentBlockIndex();
-        this.api.blocks.insert(n.tool, o, {}, s, !0, !0), this.api.caret.setToBlock(s);
+        const o = (n == null ? void 0 : n.convert(n.regex, e)) || {}, i = this.api.blocks.getCurrentBlockIndex();
+        this.api.blocks.insert(n.tool, o, {}, i, !0, !0), this.api.caret.setToBlock(i);
         break;
       }
     }
@@ -113,11 +113,9 @@ class a {
     };
   }
 }
-const m = {
-  HEAD_RULE: h,
-  DELIMITER_RULE: d
-};
+const m = h, p = d;
 export {
-  m as DEFAULT_RULES,
+  p as DELIMITER_RULE,
+  m as HEAD_RULE,
   a as default
 };
