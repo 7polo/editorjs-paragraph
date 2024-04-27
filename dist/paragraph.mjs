@@ -1,11 +1,21 @@
 (function(){"use strict";try{if(typeof document<"u"){var e=document.createElement("style");e.appendChild(document.createTextNode(".ce-paragraph{line-height:1.6em;outline:none}.ce-paragraph[data-placeholder]:empty:before{content:attr(data-placeholder);color:#707684;font-weight:400;opacity:0}.codex-editor--empty .ce-block:first-child .ce-paragraph[data-placeholder]:empty:before{opacity:1}.codex-editor--toolbox-opened .ce-block:first-child .ce-paragraph[data-placeholder]:empty:before,.codex-editor--empty .ce-block:first-child .ce-paragraph[data-placeholder]:empty:focus:before{opacity:0}.ce-paragraph p:first-of-type{margin-top:0}.ce-paragraph p:last-of-type{margin-bottom:0}")),document.head.appendChild(e)}}catch(t){console.error("vite-plugin-css-injected-by-js",t)}})();
 const l = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 9V7.2C8 7.08954 8.08954 7 8.2 7L12 7M16 9V7.2C16 7.08954 15.9105 7 15.8 7L12 7M12 7L12 17M12 17H10M12 17H14"/></svg>';
-function c(a) {
+function c(r) {
   const e = document.createElement("div");
-  e.innerHTML = a.trim();
+  e.innerHTML = r.trim();
   const t = document.createDocumentFragment();
   return t.append(...Array.from(e.childNodes)), t;
 }
+const h = {
+  tool: "header",
+  regex: /^(#{1,6}) $/g,
+  convert: (r, e) => {
+    const t = e.match(r);
+    return t && t.length > 0 ? { text: "", level: t[0].trim().length } : null;
+  }
+}, d = {
+  tool: "delimiter"
+};
 /**
  * Base Paragraph Block for the Editor.js.
  * Represents a regular text block
@@ -14,15 +24,15 @@ function c(a) {
  * @copyright CodeX 2018
  * @license The MIT License (MIT)
  */
-class s {
+class a {
   static get DEFAULT_PLACEHOLDER() {
     return "";
   }
-  constructor({ data: e, config: t, api: n, readOnly: r }) {
-    this.api = n, this.readOnly = r, this._CSS = {
+  constructor({ data: e, config: t, api: n, readOnly: i }) {
+    this.api = n, this.readOnly = i, this._CSS = {
       block: this.api.styles.block,
       wrapper: "ce-paragraph"
-    }, this.readOnly || (this.onKeyUp = this.onKeyUp.bind(this)), this._placeholder = t.placeholder ? t.placeholder : s.DEFAULT_PLACEHOLDER, this._data = e != null ? e : {}, this._element = null, this._preserveBlank = t.preserveBlank !== void 0 ? t.preserveBlank : !1, this.commands = t.commands || [];
+    }, this.readOnly || (this.onKeyUp = this.onKeyUp.bind(this)), this._placeholder = t.placeholder ? t.placeholder : a.DEFAULT_PLACEHOLDER, this._data = e != null ? e : {}, this._element = null, this._preserveBlank = t.preserveBlank !== void 0 ? t.preserveBlank : !1, this.commands = t.commands || [];
   }
   onKeyUp(e) {
     if (e.code !== "Backspace" && e.code !== "Delete") {
@@ -41,8 +51,8 @@ class s {
     for (let t = 0; t < this.commands.length; t++) {
       const n = this.commands[t];
       if (n.regex.test(e)) {
-        const o = (n == null ? void 0 : n.convert(n.regex, e)) || {}, i = this.api.blocks.getCurrentBlockIndex();
-        this.api.blocks.insert(n.tool, o, {}, i, !0, !0), this.api.caret.setToBlock(i);
+        const o = (n == null ? void 0 : n.convert(n.regex, e)) || {}, s = this.api.blocks.getCurrentBlockIndex();
+        this.api.blocks.insert(n.tool, o, {}, s, !0, !0), this.api.caret.setToBlock(s);
         break;
       }
     }
@@ -103,6 +113,11 @@ class s {
     };
   }
 }
+const m = {
+  HEAD_RULE: h,
+  DELIMITER_RULE: d
+};
 export {
-  s as default
+  m as DEFAULT_RULES,
+  a as default
 };

@@ -5,6 +5,7 @@ import './index.css';
 
 import {IconText} from '@codexteam/icons'
 import makeFragment from './utils/makeFragment';
+import {DELIMITER_RULE, HEAD_RULE} from "./command";
 
 /**
  * Base Paragraph Block for the Editor.js.
@@ -269,4 +270,9 @@ export default class Paragraph {
       title: 'Text',
     };
   }
+}
+
+export const DEFAULT_RULES = {
+  HEAD_RULE,
+  DELIMITER_RULE,
 }
